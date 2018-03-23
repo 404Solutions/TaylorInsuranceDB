@@ -1,3 +1,4 @@
+/*
 CREATE TABLE HomeQuotes (
   QuoteID CHAR(5) PRIMARY KEY DEFAULT '0',
   DateQuoted DATE NOT NULL,
@@ -6,11 +7,10 @@ CREATE TABLE HomeQuotes (
   Tax DECIMAL(6,2),
   Total DECIMAL(9,2)
 );
-
+*/
 CREATE TABLE HomeQuote_Seq (
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
 );
-
 
 DELIMITER $$
 CREATE TRIGGER T_HomeQuotes_Insert
@@ -22,6 +22,8 @@ BEGIN
 END$$
 DELIMITER ;
 
+
+/*
 CREATE TABLE VehicleQuotes (
   QuoteID CHAR(5) PRIMARY KEY DEFAULT '0',
   DateQuoted DATE NOT NULL,
@@ -30,6 +32,7 @@ CREATE TABLE VehicleQuotes (
   Tax DECIMAL(6,2) NOT NULL,
   Total DECIMAL(9,2) NOT NULL
 );
+*/
 
 CREATE TABLE VehicleQuotes_Seq(
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
@@ -44,3 +47,5 @@ BEGIN
   SET NEW.QuoteID= CONCAT('V', LPAD(LAST_INSERT_ID(), 4, '0'));
 END$$
 DELIMITER ;
+
+

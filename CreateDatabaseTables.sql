@@ -14,27 +14,20 @@ DROP TABLE Location;
 DROP TABLE Vehicle;
 DROP TABLE VehiclePolicy;
 DROP TABLE Account;
-DROP TABLE UserType;
 
-
-CREATE TABLE UserType (
-  UserTypeID DECIMAL(1) PRIMARY KEY,
-  Description VARCHAR(20) NOT NULL 
-);
 
 CREATE TABLE Account (
-  UserID DECIMAL(5) PRIMARY KEY,
-  UserTypeID DECIMAL(1),
-  Password VARCHAR(50),
-  FOREIGN KEY (UserTypeID) REFERENCES UserType(UserTypeID)
+  UserID INT PRIMARY KEY auto_increment,
+  Email VARCHAR(30) NOT NULL UNIQUE,
+  Password VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE Vehicle (
-  VechileID DECIMAL(5) PRIMARY KEY,
+CREATE TABLE Vehicle(
+  VehicleID DECIMAL(5) PRIMARY KEY auto_increment,
   Make VARCHAR(10) NOT NULL,
   Year DECIMAL(4) NOT NULL,
   Model VARCHAR(20) NOT NULL,
-  PlateDECIMAL VARCHAR(6) NOT NULL
+  PlateNumber VARCHAR(6) NOT NULL
 );
 
 CREATE TABLE Location(
@@ -44,10 +37,10 @@ CREATE TABLE Location(
 );
 
 CREATE TABLE PrincipleDriver (
-  UserID DECIMAL(5) PRIMARY KEY,
-  DOB DATE NOT NULL,
+  UserID INT PRIMARY KEY,
   FirstName VARCHAR(25) NOT NULL,
   LastName VARCHAR(20) NOT NULL,
+  DOB DATE NOT NULL,
   Address VARCHAR(70) NOT NULL,
   City VARCHAR(15) NOT NULL,
   Province VARCHAR(40) NOT NULL,
@@ -55,15 +48,15 @@ CREATE TABLE PrincipleDriver (
   PhoneNumber VARCHAR(14) NOT NULL,
   Email VARCHAR(30),
   Gender CHAR(1),
-  DriversLicenseDECIMAL VARCHAR(10) NOT NULL,
+  DriversLicenseNumber VARCHAR(10) NOT NULL,
   LicenseIssueDate DATE NOT NULL,
   LocationID DECIMAL(1),
-  FOREIGN KEY (LocationID) REFERENCES Locaiton(ID)
+  FOREIGN KEY (LocationID) REFERENCES Location(ID)
 );
 
 
 CREATE TABLE VehicleQuotes (
-  QuoteID VARCHAR(5) PRIMARY KEY,
+  QuoteID CHAR(5) PRIMARY KEY,
   VehicleID DECIMAL(5) NOT NULL,
   DateQuoted DATE NOT NULL,
   QuoteExpiredDate DATE NOT NULL,
@@ -77,7 +70,7 @@ CREATE TABLE VehicleQuotes (
 CREATE TABLE VehiclePolicy (
   PolicyID CHAR(5) PRIMARY KEY,
   VehicleID DECIMAL(5) NOT NULL,
-  UserID DECIMAL(5) NOT NULL,
+  UserID INT NOT NULL,
   QuoteID CHAR(5) NOT NULL,
   StartDate DATE NOT NULL,
   EndDate DATE NOT NULL,
@@ -92,7 +85,7 @@ CREATE TABLE VehiclePolicy (
 
 
 CREATE TABLE SecondaryDriver (
-  SecondaryID DECIMAL(5) PRIMARY KEY,
+  SecondaryID INT PRIMARY KEY auto_increment,
   FirstName VARCHAR(25) NOT NULL,
   LastName VARCHAR(20) NOT NULL,
   DOB DATE NOT NULL,
@@ -109,7 +102,7 @@ CREATE TABLE SecondaryDriver (
 
 CREATE TABLE BRIDGEPolicySecondary (
   PolicyID CHAR(5) NOT NULL,
-  SecondaryID DECIMAL(5) NOT NULL,
+  SecondaryID INT NOT NULL,
   DateAdded DATE,
   CONSTRAINT policySecondary PRIMARY KEY (PolicyID,SecondaryID),
   FOREIGN KEY (PolicyID) REFERENCES VehiclePolicy(PolicyID),
@@ -117,8 +110,8 @@ CREATE TABLE BRIDGEPolicySecondary (
 );
 
 CREATE TABLE BRIDGEQuoteSecondary (
-  QuoteId CHAR(5) PRIMARY KEY,
-  SecondaryID DECIMAL(6) PRIMARY KEY,
+  QuoteId CHAR(5) NOT NULL,
+  SecondaryID INT NOT NULL,
   DateAdded DATE,
   CONSTRAINT quoteSecondary PRIMARY KEY (QuoteID,SecondaryID),
   FOREIGN KEY (QuoteID) REFERENCES VehicleQuotes(QuoteID),
@@ -127,12 +120,12 @@ CREATE TABLE BRIDGEQuoteSecondary (
 
 CREATE TABLE Accidents (
   AccidentID DECIMAL(5) PRIMARY KEY,
-  UserID DECIMAL(5),
+  UserID INT NOT NULL,
   SecondaryDriverID DECIMAL(5),
   DateOfAccident DATE NOT NULL,
   Responsible BOOLEAN NOT NULL,
   FOREIGN KEY (UserID) REFERENCES PrincipleDriver(UserID),
-  FOREIGN KEY (SecondaryDriverID) REFERENCES SecondaryDriver(SecondaryDriverID)
+  FOREIGN KEY (SecondaryDriverID) REFERENCES SecondaryDriver(SecondaryID)
 );
 
 CREATE TABLE HomeHeating(
@@ -152,18 +145,18 @@ CREATE TABLE Home (
   YearBuilt DECIMAL(4) NOT NULL,
   HomeTypeID DECIMAL(1) NOT NULL,
   HeatingTypeID DECIMAL(1) NOT NULL,
-  PostalCode VARCHAR(6) NOT NULL,
+  Value DECIMAL(7,2) NOT NULL,
   Address VARCHAR(70) NOT NULL,
   City VARCHAR(15) NOT NULL,
   Province VARCHAR(40) NOT NULL,
+  PostalCode VARCHAR(6) NOT NULL,
   FOREIGN KEY (HeatingTypeID) REFERENCES HomeHeating(ID),
   FOREIGN KEY (HomeTypeID) REFERENCES HomeType(ID)
 );
 
 
-
 CREATE TABLE HomeOwner (
-  UserID DECIMAL(6) PRIMARY KEY,
+  UserID INT PRIMARY KEY,
   FirstName VARCHAR(25) NOT NULL,
   LastName VARCHAR(20) NOT NULL,
   DOB DATE,
@@ -177,7 +170,7 @@ CREATE TABLE HomeOwner (
 
 CREATE TABLE HomeQuotes (
   QuoteID CHAR(5) PRIMARY KEY,
-  UserID DECIMAL(5) NOT NULL,
+  UserID INT NOT NULL,
   HomeID DECIMAL(6) NOT NULL,
   DateQuoted DATE NOT NULL,
   QuoteExpired DATE NOT NULL,
@@ -190,7 +183,7 @@ CREATE TABLE HomeQuotes (
 
 CREATE TABLE HomePolicy (
   PolicyID CHAR(5) PRIMARY KEY,
-  UserID DECIMAL(5) NOT NULL,
+  UserID INT NOT NULL,
   HomeID DECIMAL(5) NOT NULL,
   QuoteID CHAR(5) NOT NULL,
   StartDate DATE NOT NULL,
@@ -198,10 +191,6 @@ CREATE TABLE HomePolicy (
   BasePremium DECIMAL(7,2),
   Tax DECIMAL(4,2) NOT NULL,
   Total DECIMAL(7,2) NOT NULL,
-  ReplacementCostValue DECIMAL(7,2) NOT NULL,
-  LiabilityLimit DECIMAL(7,2) NOT NULL,
-  ContentsLimit DECIMAL(7,2) NOT NULL,
-  ContentsDeducttible DECIMAL(6,2) NOT NULL,
   FOREIGN KEY (UserID) REFERENCES HomeOwner(UserID),
   FOREIGN KEY (QuoteID) REFERENCES HomeQuotes(QuoteID),
   FOREIGN KEY (HomeID) REFERENCES Home(HomeID)
