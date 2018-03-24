@@ -8,13 +8,16 @@ DROP TABLE Accidents;
 DROP TABLE BRIDGEQuoteSecondary;
 DROP TABLE BRIDGEPolicySecondary;
 DROP TABLE SecondaryDriver;
+DROP TABLE VehiclePolicy;
 DROP TABLE VehicleQuotes;
 DROP TABLE PrincipleDriver;
-DROP TABLE Location;
 DROP TABLE Vehicle;
-DROP TABLE VehiclePolicy;
 DROP TABLE Account;
-
+DROP TABLE Location;
+DROP TABLE homepolicy_seq;
+DROP TABLE homequote_seq;
+DROP TABLE vehiclepolicy_seq;
+DROP TABLE vehiclequotes_seq;
 
 CREATE TABLE Account (
   UserID INT PRIMARY KEY auto_increment,
@@ -23,7 +26,7 @@ CREATE TABLE Account (
 );
 
 CREATE TABLE Vehicle(
-  VehicleID DECIMAL(5) PRIMARY KEY auto_increment,
+  VehicleID INT PRIMARY KEY auto_increment,
   Make VARCHAR(10) NOT NULL,
   Year DECIMAL(4) NOT NULL,
   Model VARCHAR(20) NOT NULL,
@@ -56,8 +59,8 @@ CREATE TABLE PrincipleDriver (
 
 
 CREATE TABLE VehicleQuotes (
-  QuoteID CHAR(5) PRIMARY KEY,
-  VehicleID DECIMAL(5) NOT NULL,
+  QuoteID CHAR(6) PRIMARY KEY,
+  VehicleID INT NOT NULL,
   DateQuoted DATE NOT NULL,
   QuoteExpiredDate DATE NOT NULL,
   BasePremium DECIMAL(6,2) NOT NULL,
@@ -68,10 +71,10 @@ CREATE TABLE VehicleQuotes (
 );
 
 CREATE TABLE VehiclePolicy (
-  PolicyID CHAR(5) PRIMARY KEY,
-  VehicleID DECIMAL(5) NOT NULL,
+  PolicyID CHAR(6) PRIMARY KEY,
+  VehicleID INT NOT NULL,
   UserID INT NOT NULL,
-  QuoteID CHAR(5) NOT NULL,
+  QuoteID CHAR(6) NOT NULL,
   StartDate DATE NOT NULL,
   EndDate DATE NOT NULL,
   BasePremium DECIMAL(6,2) NOT NULL,
@@ -101,7 +104,7 @@ CREATE TABLE SecondaryDriver (
 );
 
 CREATE TABLE BRIDGEPolicySecondary (
-  PolicyID CHAR(5) NOT NULL,
+  PolicyID CHAR(6) NOT NULL,
   SecondaryID INT NOT NULL,
   DateAdded DATE,
   CONSTRAINT policySecondary PRIMARY KEY (PolicyID,SecondaryID),
@@ -110,7 +113,7 @@ CREATE TABLE BRIDGEPolicySecondary (
 );
 
 CREATE TABLE BRIDGEQuoteSecondary (
-  QuoteId CHAR(5) NOT NULL,
+  QuoteId CHAR(6) NOT NULL,
   SecondaryID INT NOT NULL,
   DateAdded DATE,
   CONSTRAINT quoteSecondary PRIMARY KEY (QuoteID,SecondaryID),
@@ -119,9 +122,9 @@ CREATE TABLE BRIDGEQuoteSecondary (
 );
 
 CREATE TABLE Accidents (
-  AccidentID DECIMAL(5) PRIMARY KEY,
+  AccidentID INT PRIMARY KEY auto_increment,
   UserID INT NOT NULL,
-  SecondaryDriverID DECIMAL(5),
+  SecondaryDriverID INT,
   DateOfAccident DATE NOT NULL,
   Responsible BOOLEAN NOT NULL,
   FOREIGN KEY (UserID) REFERENCES PrincipleDriver(UserID),
@@ -169,7 +172,7 @@ CREATE TABLE HomeOwner (
 );
 
 CREATE TABLE HomeQuotes (
-  QuoteID CHAR(5) PRIMARY KEY,
+  QuoteID CHAR(6) PRIMARY KEY,
   UserID INT NOT NULL,
   HomeID DECIMAL(6) NOT NULL,
   DateQuoted DATE NOT NULL,
@@ -182,10 +185,10 @@ CREATE TABLE HomeQuotes (
 );
 
 CREATE TABLE HomePolicy (
-  PolicyID CHAR(5) PRIMARY KEY,
+  PolicyID CHAR(6) PRIMARY KEY,
   UserID INT NOT NULL,
   HomeID DECIMAL(5) NOT NULL,
-  QuoteID CHAR(5) NOT NULL,
+  QuoteID CHAR(6) NOT NULL,
   StartDate DATE NOT NULL,
   EndDate DATE NOT NULL,
   BasePremium DECIMAL(7,2),
@@ -195,4 +198,3 @@ CREATE TABLE HomePolicy (
   FOREIGN KEY (QuoteID) REFERENCES HomeQuotes(QuoteID),
   FOREIGN KEY (HomeID) REFERENCES Home(HomeID)
 );
-
