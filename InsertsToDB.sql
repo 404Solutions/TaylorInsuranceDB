@@ -177,3 +177,33 @@ CREATE TABLE BRIDGEQuoteSecondary (
 );
 */
 
+/*
+CREATE TABLE HomeOwner (
+  UserID INT PRIMARY KEY,
+  FirstName VARCHAR(25) NOT NULL,
+  LastName VARCHAR(20) NOT NULL,
+  DOB DATE,
+  Address VARCHAR(70) NOT NULL,
+  City VARCHAR(15) NOT NULL,
+  Province VARCHAR(40) NOT NULL,
+  Email VARCHAR(30),
+  Gender CHAR(1),
+  PostalCode VARCHAR(6) NOT NULL,
+  PhoneNumber VARCHAR(14) NOT NULL
+);
+*/
+
+INSERT INTO HomeOwner(UserID, FirstName, LastName, DOB, Address, City, Province, PostalCode,  Email, Gender, PhoneNumber) 
+VALUES(1, 'Meghan', 'Snow', '1993-09-30', '102312 street', 'gander', 'nl', 'a1e5m2', 'meghan.snow@g3.coem','F','709-777-7777')
+
+
+
+
+
+INSERT INTO Home(YearBuit, HomeTypeID, HeatingTypeID, Value, Address, City, Province, PostalCode)
+Values(1994,2,3,200000,"1 fake street","st.John's","NL","a1y7d4")
+
+
+
+INSERT INTO Vehicle(VehicleID, Make, Year, Model, PlateNumber)
+VALUES(?,?,?,?,?);  

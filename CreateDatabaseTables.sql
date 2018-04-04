@@ -64,8 +64,8 @@ CREATE TABLE VehicleQuotes (
   DateQuoted DATE NOT NULL,
   QuoteExpiredDate DATE NOT NULL,
   BasePremium DECIMAL(6,2) NOT NULL,
-  Tax DECIMAL(4,2) NOT NULL,
-  Total DECIMAL(7,2) NOT NULL,
+  Tax DECIMAL(10,2) NOT NULL,
+  Total DECIMAL(10,2) NOT NULL,
   ReplacementCost DECIMAL(6,2) NOT NULL,
   FOREIGN KEY (VehicleID) REFERENCES Vehicle(VehicleID)
 );
@@ -77,10 +77,10 @@ CREATE TABLE VehiclePolicy (
   QuoteID CHAR(6) NOT NULL,
   StartDate DATE NOT NULL,
   EndDate DATE NOT NULL,
-  BasePremium DECIMAL(6,2) NOT NULL,
-  Tax DECIMAL(4,2) NOT NULL,
-  Total DECIMAL(7,2) NOT NULL,
-  ReplacementCostValue DECIMAL(6,2) NOT NULL,
+  BasePremium DECIMAL(10,2) NOT NULL,
+  Tax DECIMAL(10,2) NOT NULL,
+  Total DECIMAL(12,2) NOT NULL,
+  ReplacementCostValue DECIMAL(10,2) NOT NULL,
   FOREIGN KEY (UserID) REFERENCES PrincipleDriver(UserID),
   FOREIGN KEY (QuoteID) REFERENCES VehicleQuotes(QuoteID),
   FOREIGN KEY (VehicleID) REFERENCES Vehicle(VehicleID)
@@ -134,27 +134,27 @@ CREATE TABLE Accidents (
 CREATE TABLE HomeHeating(
   ID DECIMAL(1) PRIMARY KEY,
   HeatingType VARCHAR(40) NOT NULL,
-  Rate DECIMAL(3,2) NOT NULL
+  Rate DECIMAL(3,2) NOT NULL,
+  FOREIGN KEY (ID) REFERENCES Home(HomeTypeID)
 );
 
 CREATE TABLE HomeType(
   ID DECIMAL(1) PRIMARY KEY,
   HomeType VARCHAR(40) NOT NULL,
-  Rate DECIMAL(3,2) NOT NULL
+  Rate DECIMAL(3,2) NOT NULL,
+  FOREIGN KEY (ID) REFERENCES Home(HomeTypeID)
 );
 
 CREATE TABLE Home (
-  HomeID DECIMAL(5) PRIMARY KEY,
+  HomeID INT   PRIMARY KEY auto_increment,
   YearBuilt DECIMAL(4) NOT NULL,
   HomeTypeID DECIMAL(1) NOT NULL,
   HeatingTypeID DECIMAL(1) NOT NULL,
-  Value DECIMAL(7,2) NOT NULL,
+  Value DECIMAL(10,2) NOT NULL,
   Address VARCHAR(70) NOT NULL,
   City VARCHAR(15) NOT NULL,
   Province VARCHAR(40) NOT NULL,
-  PostalCode VARCHAR(6) NOT NULL,
-  FOREIGN KEY (HeatingTypeID) REFERENCES HomeHeating(ID),
-  FOREIGN KEY (HomeTypeID) REFERENCES HomeType(ID)
+  PostalCode VARCHAR(6) NOT NULL
 );
 
 
@@ -168,7 +168,8 @@ CREATE TABLE HomeOwner (
   Province VARCHAR(40) NOT NULL,
   Email VARCHAR(30),
   Gender CHAR(1),
-  PostalCode VARCHAR(6) NOT NULL
+  PostalCode VARCHAR(6) NOT NULL,
+  PhoneNumber VARCHAR(14) NOT NULL
 );
 
 CREATE TABLE HomeQuotes (
@@ -178,8 +179,8 @@ CREATE TABLE HomeQuotes (
   DateQuoted DATE NOT NULL,
   QuoteExpired DATE NOT NULL,
   BasePremium DECIMAL(6,2),
-  Tax DECIMAL(4,2),
-  Total DECIMAL(7,2),
+  Tax DECIMAL(10,2),
+  Total DECIMAL(10,2),
   FOREIGN KEY (UserID) REFERENCES HomeOwner(UserID),
   FOREIGN KEY (HomeID) REFERENCES Home(HomeID)
 );
@@ -191,9 +192,9 @@ CREATE TABLE HomePolicy (
   QuoteID CHAR(6) NOT NULL,
   StartDate DATE NOT NULL,
   EndDate DATE NOT NULL,
-  BasePremium DECIMAL(7,2),
-  Tax DECIMAL(4,2) NOT NULL,
-  Total DECIMAL(7,2) NOT NULL,
+  BasePremium DECIMAL(10,2),
+  Tax DECIMAL(10,2) NOT NULL,
+  Total DECIMAL(12,2) NOT NULL,
   FOREIGN KEY (UserID) REFERENCES HomeOwner(UserID),
   FOREIGN KEY (QuoteID) REFERENCES HomeQuotes(QuoteID),
   FOREIGN KEY (HomeID) REFERENCES Home(HomeID)
