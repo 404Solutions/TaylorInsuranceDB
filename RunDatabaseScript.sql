@@ -35,7 +35,7 @@ CREATE TABLE Vehicle(
 
 CREATE TABLE Location(
   ID DECIMAL(1) PRIMARY KEY,
-  Location VARCHAR(10),
+  Location VARCHAR(30),
   Rate DECIMAL(3,2)
 );
 
@@ -63,10 +63,10 @@ CREATE TABLE VehicleQuotes (
   VehicleID INT NOT NULL,
   DateQuoted DATE NOT NULL,
   QuoteExpiredDate DATE NOT NULL,
-  BasePremium DECIMAL(6,2) NOT NULL,
-  Tax DECIMAL(10,2) NOT NULL,
-  Total DECIMAL(10,2) NOT NULL,
-  ReplacementCost DECIMAL(6,2) NOT NULL,
+  BasePremium DECIMAL(12,2) NOT NULL,
+  Tax DECIMAL(12,2) NOT NULL,
+  Total DECIMAL(12,2) NOT NULL,
+  ReplacementCost DECIMAL(12,2) NOT NULL,
   FOREIGN KEY (VehicleID) REFERENCES Vehicle(VehicleID)
 );
 
@@ -77,10 +77,10 @@ CREATE TABLE VehiclePolicy (
   QuoteID CHAR(6) NOT NULL,
   StartDate DATE NOT NULL,
   EndDate DATE NOT NULL,
-  BasePremium DECIMAL(10,2) NOT NULL,
-  Tax DECIMAL(10,2) NOT NULL,
+  BasePremium DECIMAL(12,2) NOT NULL,
+  Tax DECIMAL(12,2) NOT NULL,
   Total DECIMAL(12,2) NOT NULL,
-  ReplacementCostValue DECIMAL(10,2) NOT NULL,
+  ReplacementCostValue DECIMAL(12,2) NOT NULL,
   FOREIGN KEY (UserID) REFERENCES PrincipleDriver(UserID),
   FOREIGN KEY (QuoteID) REFERENCES VehicleQuotes(QuoteID),
   FOREIGN KEY (VehicleID) REFERENCES Vehicle(VehicleID)
@@ -148,7 +148,7 @@ CREATE TABLE Home (
   YearBuilt DECIMAL(4) NOT NULL,
   HomeTypeID DECIMAL(1) NOT NULL,
   HeatingTypeID DECIMAL(1) NOT NULL,
-  Value DECIMAL(10,2) NOT NULL,
+  Value DECIMAL(12,2) NOT NULL,
   Address VARCHAR(70) NOT NULL,
   City VARCHAR(15) NOT NULL,
   Province VARCHAR(40) NOT NULL,
@@ -178,9 +178,9 @@ CREATE TABLE HomeQuotes (
   HomeID INT NOT NULL,
   DateQuoted DATE NOT NULL,
   QuoteExpired DATE NOT NULL,
-  BasePremium DECIMAL(6,2),
-  Tax DECIMAL(10,2),
-  Total DECIMAL(10,2),
+  BasePremium DECIMAL(12,2),
+  Tax DECIMAL(12,2),
+  Total DECIMAL(12,2),
   FOREIGN KEY (UserID) REFERENCES HomeOwner(UserID),
   FOREIGN KEY (HomeID) REFERENCES Home(HomeID)
 );
@@ -192,8 +192,8 @@ CREATE TABLE HomePolicy (
   QuoteID CHAR(6) NOT NULL,
   StartDate DATE NOT NULL,
   EndDate DATE NOT NULL,
-  BasePremium DECIMAL(10,2),
-  Tax DECIMAL(10,2) NOT NULL,
+  BasePremium DECIMAL(12,2),
+  Tax DECIMAL(12,2) NOT NULL,
   Total DECIMAL(12,2) NOT NULL,
   FOREIGN KEY (UserID) REFERENCES HomeOwner(UserID),
   FOREIGN KEY (QuoteID) REFERENCES HomeQuotes(QuoteID),
@@ -238,11 +238,11 @@ CREATE TABLE HomePolicy_Seq (
 
 DELIMITER $$
 CREATE TRIGGER T_HomePolicy_Insert
-BEFORE INSERT ON HomeQuotes
+BEFORE INSERT ON HomePolicy
 FOR EACH ROW
 BEGIN
   INSERT INTO Homepolicy_Seq VALUES (NULL);
-  SET NEW.QuoteID= CONCAT('HP', LPAD(LAST_INSERT_ID(), 4, '0'));
+  SET NEW.PolicyID= CONCAT('HP', LPAD(LAST_INSERT_ID(), 4, '0'));
 END$$
 DELIMITER ;
 
