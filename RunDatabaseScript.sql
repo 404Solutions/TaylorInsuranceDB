@@ -99,7 +99,7 @@ CREATE TABLE SecondaryDriver (
   PhoneNumber VARCHAR(14) NOT NULL,
   Email VARCHAR(30),
   Gender CHAR(1),
-  DriversLicense DECIMAL(10) NOT NULL,
+  DriversLicense VARCHAR(10) NOT NULL,
   LicenseIssueDate DATE NOT NULL
 );
 
