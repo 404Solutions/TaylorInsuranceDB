@@ -60,6 +60,7 @@ CREATE TABLE PrincipleDriver (
 
 CREATE TABLE VehicleQuotes (
   QuoteID CHAR(6) PRIMARY KEY,
+  UserID INT NOT NULL,
   VehicleID INT NOT NULL,
   DateQuoted DATE NOT NULL,
   QuoteExpiredDate DATE NOT NULL,
@@ -67,7 +68,8 @@ CREATE TABLE VehicleQuotes (
   Tax DECIMAL(12,2) NOT NULL,
   Total DECIMAL(12,2) NOT NULL,
   ReplacementCost DECIMAL(12,2) NOT NULL,
-  FOREIGN KEY (VehicleID) REFERENCES Vehicle(VehicleID)
+  FOREIGN KEY (VehicleID) REFERENCES Vehicle(VehicleID),
+  FOREIGN KEY (UserID) REFERENCES PrincipleDriver(UserID)
 );
 
 CREATE TABLE VehiclePolicy (

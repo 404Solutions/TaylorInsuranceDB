@@ -207,3 +207,22 @@ Values(1994,2,3,200000,"1 fake street","st.John's","NL","a1y7d4")
 
 INSERT INTO Vehicle(VehicleID, Make, Year, Model, PlateNumber)
 VALUES(?,?,?,?,?);  
+
+
+/* Accident testing records*/
+INSERT INTO Accidents(UserID, SecondaryDriverID, DateOfAccident, Responsible)
+VALUES(1,1,"2017-09-10",TRUE);
+
+INSERT INTO Accidents(UserID, SecondaryDriverID, DateOfAccident, Responsible)
+VALUES(1,1,"2009-09-10",TRUE);
+
+
+INSERT INTO Accidents(UserID, SecondaryDriverID, DateOfAccident, Responsible)
+VALUES(1,1,"2001-10-09",TRUE);
+
+
+INSERT INTO Accidents(UserID, SecondaryDriverID, DateOfAccident, Responsible)
+VALUES(1,1,"2005-10-09",TRUE);
+
+INSERT INTO Accidents(UserID, SecondaryDriverID, DateOfAccident, Responsible)
+VALUES(1,1,"2016-10-09",TRUE);
