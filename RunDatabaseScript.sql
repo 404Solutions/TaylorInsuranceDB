@@ -127,7 +127,7 @@ CREATE TABLE Accidents (
   AccidentID INT PRIMARY KEY auto_increment,
   UserID INT NOT NULL,
   SecondaryDriverID INT,
-  DateOfAccident DECIMAL(4) NOT NULL,
+  DateOfAccident INT NOT NULL,
   Responsible BOOLEAN NOT NULL,
   FOREIGN KEY (UserID) REFERENCES PrincipleDriver(UserID),
   FOREIGN KEY (SecondaryDriverID) REFERENCES SecondaryDriver(SecondaryID)
