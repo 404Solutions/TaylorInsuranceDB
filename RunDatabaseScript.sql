@@ -129,8 +129,7 @@ CREATE TABLE Accidents (
   SecondaryDriverID INT,
   DateOfAccident INT NOT NULL,
   Responsible BOOLEAN NOT NULL,
-  FOREIGN KEY (UserID) REFERENCES PrincipleDriver(UserID),
-  FOREIGN KEY (SecondaryDriverID) REFERENCES SecondaryDriver(SecondaryID)
+  FOREIGN KEY (UserID) REFERENCES PrincipleDriver(UserID)
 );
 
 CREATE TABLE HomeHeating(
