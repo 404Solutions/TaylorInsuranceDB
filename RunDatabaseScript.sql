@@ -54,7 +54,8 @@ CREATE TABLE PrincipleDriver (
   DriversLicenseNumber VARCHAR(10) NOT NULL,
   LicenseIssueDate DATE NOT NULL,
   LocationID DECIMAL(1),
-  FOREIGN KEY (LocationID) REFERENCES Location(ID)
+  FOREIGN KEY (LocationID) REFERENCES Location(ID),
+  FOREIGN KEY (UserID) REFERENCES Account(UserID)
 );
 
 
@@ -170,7 +171,8 @@ CREATE TABLE HomeOwner (
   Email VARCHAR(30),
   Gender CHAR(1),
   PostalCode VARCHAR(6) NOT NULL,
-  PhoneNumber VARCHAR(14) NOT NULL
+  PhoneNumber VARCHAR(14) NOT NULL,
+  FOREIGN KEY (UserID) REFERENCES Account(UserID)
 );
 
 CREATE TABLE HomeQuotes (
